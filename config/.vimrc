@@ -93,7 +93,7 @@ Plug 'Yggdroot/indentLine'
 call plug#end()
 
 " COC extensions
-let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql']
+let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-git', 'coc-lists', 'coc-yank']
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -127,7 +127,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "     let g:rg_derive_root='true'
 " endif
 
-let mapleader = " "
+" let mapleader = " "
+map <Space> <leader>
 let loaded_matchparen = 1
 let g:rainbow_active = 1
 
@@ -221,6 +222,10 @@ nnoremap ci{ f{ci{
 nnoremap ci} f}ci}
 nnoremap ci[ f[ci[
 nnoremap ci] f]ci]
+" coc explorer
+nnoremap <leader>e :CocCommand explorer<CR>
+" coc yank
+nnoremap <leader>y :<C-u>CocList -A --normal yank<cr>
 
 " GoTo code navigation.
 nmap <leader>gd <Plug>(coc-definition)
