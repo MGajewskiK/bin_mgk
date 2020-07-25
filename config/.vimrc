@@ -44,7 +44,6 @@ set shortmess+=c " dont pass messages to ins-completion-menu
 " set 7 lines from beginning and end of file
 set so=7
 
-
 set history=700 " history of undos
 set undolevels=700 " undo levels
 
@@ -89,11 +88,12 @@ Plug 'luochen1990/rainbow'
 " Plug 'ambv/black'
 Plug 'psliwka/vim-smoothie'
 Plug 'Yggdroot/indentLine'
+Plug 'mechatroner/rainbow_csv'
 
 call plug#end()
 
 " COC extensions
-let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-git', 'coc-lists', 'coc-yank']
+let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-yank']
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -110,6 +110,9 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_sameids = 1
+
+" disable polyglot for certain filetypes
+let g:polyglot_disabled = ['csv']
 
 colorscheme gruvbox
 set background=dark
@@ -209,8 +212,8 @@ vnoremap K :m '<-2<CR>gv=gv
 " remove highlight of the search
 nnoremap <leader>/ :noh<CR>
 " copy / paste to the system clipboard
-noremap <leader>y "+y
-noremap <leader>p "+p
+" noremap <leader>y "+y
+" noremap <leader>p "+p
 " quicker delete inside parantheses
 nnoremap ci( f(ci(
 nnoremap di( f(di(
@@ -223,7 +226,7 @@ nnoremap ci} f}ci}
 nnoremap ci[ f[ci[
 nnoremap ci] f]ci]
 " coc explorer
-nnoremap <leader>e :CocCommand explorer<CR>
+nmap <leader>e :CocCommand explorer<CR>
 " coc yank
 nnoremap <leader>y :<C-u>CocList -A --normal yank<cr>
 
@@ -358,3 +361,6 @@ endif
 
 " Run black at the filesave
 " autocmd BufWritePre *.py execute ':Black'
+
+" Config for rainbow csv
+autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
