@@ -1,8 +1,13 @@
+" =========================================================================
+" Standard Configuration Settings
+" =========================================================================
+
 syntax on
 syntax enable
 autocmd! bufwritepost .vimrc source % " automatic vimrc file reload
 
 set cursorline
+" set cursorcolumn
 set clipboard+=unnamedplus
 set t_Co=256 " 256 colors in the terminal
 set noerrorbells
@@ -38,7 +43,7 @@ set termguicolors
 set encoding=utf-8
 set pastetoggle=<F2>
 set showmode
-" set grepprg=rg\ --vimgrep
+set grepprg=rg\ --vimgrep
 set shortmess+=c " dont pass messages to ins-completion-menu
 " set signcolumn=yes " always show signcolumns
 " set 7 lines from beginning and end of file
@@ -50,6 +55,9 @@ set undolevels=700 " undo levels
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
+" ============================================================================
+" Plugin Management and config
+" ===========================================================================
 
 " automatic Plug installation for vim
 if !has('vim')
@@ -85,7 +93,6 @@ Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'luochen1990/rainbow'
-" Plug 'ambv/black'
 Plug 'psliwka/vim-smoothie'
 Plug 'Yggdroot/indentLine'
 Plug 'mechatroner/rainbow_csv'
@@ -130,8 +137,6 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "     let g:rg_derive_root='true'
 " endif
 
-" let mapleader = " "
-map <Space> <leader>
 let loaded_matchparen = 1
 let g:rainbow_active = 1
 
@@ -142,7 +147,12 @@ let g:netrw_winsize = 25
 let g:NERDSpaceDelims = 1
 let g:NERDTrimTrailingWhitespace = 1
 
+" ===========================================================================
 " Key mappings
+" ===========================================================================
+
+" let mapleader = " "
+map <Space> <leader>
 " 0 goes to first non-blank character
 map 0 ^
 nmap <leader><CR> O<Esc>
@@ -251,13 +261,12 @@ nmap <leader>gs :G<CR>
 nmap <leader>gv :Gvdiffsplit!<CR>
 nmap <leader>gc :Gcommit<CR>
 
+" ============================================================================
 " Scripts and defined commands
+" ============================================================================
 
 " close vim if the only open window is NerdTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" open NerdTree automatically if vim opens without the specified file
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Define your own Find command to use ripgrep inside of fzf
 " --column: Show column number
@@ -287,26 +296,6 @@ function! s:find_git_root()
 endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
-
-" Search from home directory
-" function! s:find_home()
-    " let g:rg_derive_root='true'
-    " execute 'Files'
-  " " return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-" endfunction
-
-" command! HomeFiles execute s:find_home()
-
-" Uses GFiles if git directory, else Files
-" function! s:find_files()
-    " let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-    " if git_dir != ''
-        " execute 'GFiles' git_dir
-    " else
-        " execute 'Files'
-    " endif
-" endfunction
-" command! ProjectFiles execute s:find_files()
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -345,22 +334,6 @@ if exists('*complete_info')
 else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-
-" Markdown preview
-" noremap <silent> <leader>om :call OpenMarkdownPreview()<cr>
-
-" function! OpenMarkdownPreview() abort
-  " if exists('s:markdown_job_id') && s:markdown_job_id > 0
-    " call job_stop(s:markdown_job_id)
-    " unlet s:markdown_job_id
-  " endif
-  " let s:markdown_job_id = job_start('grip ' . shellescape(expand('%:p')))
-  " if s:markdown_job_id <= 0 | return | endif
-  " call system('xdg-open http://localhost:6419')
-" endfunction
-
-" Run black at the filesave
-" autocmd BufWritePre *.py execute ':Black'
 
 " Config for rainbow csv
 autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
