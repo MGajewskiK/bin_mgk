@@ -1,0 +1,2 @@
+cp ~/mgk/bin_mgk/config/.tmux.conf ~/.tmux.conf
+cp ~/mgk/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
