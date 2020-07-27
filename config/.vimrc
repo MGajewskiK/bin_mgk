@@ -137,6 +137,9 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "     let g:rg_derive_root='true'
 " endif
 
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
+
 let loaded_matchparen = 1
 let g:rainbow_active = 1
 
@@ -194,10 +197,6 @@ nnoremap <leader>9 9gt
 nnoremap <leader>0 :tablast<cr>
 " Undo tree shortcut
 nnoremap <leader>u :UndotreeShow<CR>
-" open window on the side
-" nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-" riprep search inside the files
-" nnoremap \ :Rg<SPACE>
 " fzf shortcuts
 nnoremap <Leader>g :GFiles<CR>
 nnoremap <Leader>s :Find<SPACE>
@@ -207,6 +206,7 @@ nnoremap <Leader>dc :Commits<CR>
 nnoremap <Leader>rf :Files ~/<CR>
 nnoremap <leader>f :ProjectFiles<CR>
 " nnoremap <Leader>f :Files<CR>
+nnoremap <leader>gw :Rg <C-R>=expand("<cword>")<CR><CR>
 " resize panes
 nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
