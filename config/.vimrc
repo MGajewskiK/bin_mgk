@@ -6,6 +6,7 @@ syntax on
 syntax enable
 autocmd! bufwritepost .vimrc source % " automatic vimrc file reload
 
+set ma
 set cursorline
 " set cursorcolumn
 set clipboard+=unnamedplus
@@ -35,7 +36,7 @@ set ttyfast " speed up scrolling
 set hidden " work with buffers
 set mouse=a " mouse on
 set scrolloff=8 " display x lines above below when scrolling with a mouse
-set cmdheight=2 " more space for displaying messages
+set cmdheight=1 " more space for displaying messages
 set updatetime=300 " short update screen time (ms)
 set lazyredraw
 set showmatch " highlight matching brackets / noshowmatch
@@ -48,6 +49,7 @@ set shortmess+=c " dont pass messages to ins-completion-menu
 " set signcolumn=yes " always show signcolumns
 " set 7 lines from beginning and end of file
 set so=7
+set laststatus=2
 
 set history=700 " history of undos
 set undolevels=700 " undo levels
@@ -96,6 +98,7 @@ Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
 Plug 'Yggdroot/indentLine'
 Plug 'mechatroner/rainbow_csv'
+Plug 'antoinemadec/coc-fzf'
 
 call plug#end()
 
@@ -123,6 +126,7 @@ let g:polyglot_disabled = ['csv']
 
 colorscheme gruvbox
 set background=dark
+set noshowmode
 
 filetype plugin indent on
 " indent guides toggle on
@@ -139,6 +143,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
 
 let loaded_matchparen = 1
 let g:rainbow_active = 1
@@ -198,7 +204,7 @@ nnoremap <leader>0 :tablast<cr>
 " Undo tree shortcut
 nnoremap <leader>u :UndotreeShow<CR>
 " fzf shortcuts
-nnoremap <Leader>g :GFiles<CR>
+" nnoremap <Leader>g :GFiles<CR>
 nnoremap <Leader>s :Find<SPACE>
 nnoremap <Leader>b :Buffer<CR>
 nnoremap <Leader>dc :Commits<CR>
@@ -206,7 +212,7 @@ nnoremap <Leader>dc :Commits<CR>
 nnoremap <Leader>rf :Files ~/<CR>
 nnoremap <leader>f :ProjectFiles<CR>
 " nnoremap <Leader>f :Files<CR>
-nnoremap <leader>gw :Rg <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>ws :Find <C-R>=expand("<cword>")<CR><CR>
 " resize panes
 nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
@@ -238,7 +244,8 @@ nnoremap ci] f]ci]
 " coc explorer
 nmap <leader>e :CocCommand explorer<CR>
 " coc yank
-nnoremap <leader>y :<C-u>CocList -A --normal yank<cr>
+" nnoremap <leader>y :<C-u>CocList -A --normal yank<cr>
+nnoremap <leader>y :CocFzfList yank<cr>
 
 " GoTo code navigation.
 nmap <leader>gd <Plug>(coc-definition)
@@ -336,4 +343,5 @@ else
 endif
 
 " Config for rainbow csv
+autocmd BufWinEnter *.csv set buftype=nowrite | :%s/,/|/g
 autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
