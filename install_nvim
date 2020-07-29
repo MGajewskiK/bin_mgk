@@ -1,6 +1,8 @@
 # install prerequisites
 yum install epel-release -y
-yum install fuse fuse-libs ripgrep -y
+yum install fuse fuse-libs ripgrep bat -y
+echo 'export BAT_THEME="Solarized (light)"' >> ~/.zshrc
+echo 'export BAT_THEME="Solarized (light)"' >> ~/.bashrc
 # install nodejs
 curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 # install yarn

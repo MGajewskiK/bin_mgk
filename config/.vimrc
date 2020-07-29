@@ -99,6 +99,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'Yggdroot/indentLine'
 Plug 'mechatroner/rainbow_csv'
 Plug 'antoinemadec/coc-fzf'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 call plug#end()
 
@@ -141,10 +142,23 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "     let g:rg_derive_root='true'
 " endif
 
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
-let $FZF_DEFAULT_OPTS='--reverse'
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment' } }
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
+
+" let g:clipboard = {
+    " \ 'name': 'xclip',
+    " \ 'copy': {
+    " \     '+': 'xclip -selection clipboard',
+    " \     '*': 'xsel -ip'
+    " \ },
+    " \ 'paste': {
+    " \     '+': 'xclip -selection clipboard -o',
+    " \     '*': 'xsel -op'
+    " \ },
+    " \ 'cache_enabled': 1
+    " \ }
 
 let loaded_matchparen = 1
 let g:rainbow_active = 1
@@ -162,6 +176,9 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " let mapleader = " "
 map <Space> <leader>
+" terminal settings
+" esc to exit terminal
+tnoremap jj <C-\><C-n>
 " 0 goes to first non-blank character
 map 0 ^
 nmap <leader><CR> O<Esc>
@@ -190,6 +207,7 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>tm :tabmove<space>
+nnoremap <leader>tt :tabnew<CR>:terminal<CR>i
 " leader + number is now used to move through tabs
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
@@ -204,21 +222,19 @@ nnoremap <leader>0 :tablast<cr>
 " Undo tree shortcut
 nnoremap <leader>u :UndotreeShow<CR>
 " fzf shortcuts
-" nnoremap <Leader>g :GFiles<CR>
 nnoremap <Leader>s :Find<SPACE>
+nnoremap <leader>ws :Find <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader><leader> :RG<CR>
 nnoremap <Leader>b :Buffer<CR>
 nnoremap <Leader>dc :Commits<CR>
-" nnoremap <Leader>f :RootFiles<CR>
 nnoremap <Leader>rf :Files ~/<CR>
 nnoremap <leader>f :ProjectFiles<CR>
-" nnoremap <Leader>f :Files<CR>
-nnoremap <leader>ws :Find <C-R>=expand("<cword>")<CR><CR>
 " resize panes
 nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 " nerdtree configuration
-nmap <leader>t :NERDTreeToggle<CR>
-nmap <leader>tf :NERDTreeFind<CR>
+" nmap <leader>t :NERDTreeToggle<CR>
+" nmap <leader>tf :NERDTreeFind<CR>
 " nerd commenter
 nmap <leader>cc :NERDCommenterComment<CR>
 nmap <leader>c<space> :NERDCommenterToggle<CR>
@@ -252,7 +268,7 @@ nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gt <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
+" nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
@@ -286,7 +302,21 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!.tox/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Find
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!.tox/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"',
+    \   1, fzf#vim#with_preview(), <bang>0)
+
+" exploratory search function
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Show documentation script for Coc
 function! s:show_documentation()
