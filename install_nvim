@@ -25,3 +25,6 @@ sudo mv nvim /usr/bin
 cd ~
 mkdir -p .config/nvim
 cp ~/mgk/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
+# make aliases
+echo 'alias vi=nvim' >> ~/.zshrc
+echo 'alias vi=nvim' >> ~/.bashrc
