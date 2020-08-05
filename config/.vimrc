@@ -100,6 +100,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'mechatroner/rainbow_csv'
 Plug 'antoinemadec/coc-fzf'
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-obsession'
 
 call plug#end()
 

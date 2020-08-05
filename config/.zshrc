@@ -114,6 +114,7 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 
 alias k=kubectl
+alias vi=nvim
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -159,3 +160,4 @@ man() {
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow --glob "!.git/*" --glob "!.tox/*"'
 
 export BAT_THEME="Solarized (light)"
+[[ /usr/bin/kubectl ]] && source <(kubectl completion zsh)
