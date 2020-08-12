@@ -1,3 +1,7 @@
+# install python environment
+pip3 install flake8
+pip3 install brytlytdb --index=http://pypi.brytlyt.com:1080/simple --trusted-host pypi.brytlyt.com
+
 # install prerequisites
 yum install epel-release -y
 yum install fuse fuse-libs ripgrep xclip -y
