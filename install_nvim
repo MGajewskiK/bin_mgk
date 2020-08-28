@@ -42,6 +42,11 @@ echo 'alias vi=nvim' >> ~/.bashrc
 
 # configure nvim
 cd ~
-mkdir -p .config/nvim
+mkdir -p home/admin/.config/nvim
+mkdir -p ~/.config/nvim
+
+cp home/admin/mgk/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
+cp home/admin/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
+
 cp ~/mgk/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
 cp ~/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
