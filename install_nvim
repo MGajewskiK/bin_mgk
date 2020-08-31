@@ -13,8 +13,8 @@ touch ~/.Xauthority
 # install bat
 wget -O bat.zip https://github.com/sharkdp/bat/releases/download/v0.15.4/bat-v0.15.4-x86_64-unknown-linux-musl.tar.gz
 tar -xvzf bat.zip -C /usr/local/bin && mv /usr/local/bin/bat-v0.15.4-x86_64-unknown-linux-musl/bat /usr/local/bin/bat
-echo 'export BAT_THEME="Solarized (light)"' >> ~/.zshrc
-echo 'export BAT_THEME="Solarized (light)"' >> ~/.bashrc
+bash -c echo 'export BAT_THEME="Solarized (light)"' >> ~/.zshrc
+bash -c echo 'export BAT_THEME="Solarized (light)"' >> ~/.bashrc
 
 # install nodejs
 curl -sL https://rpm.nodesource.com/setup_10.x | bash -
@@ -37,13 +37,13 @@ sudo chown root:root nvim
 sudo mv nvim /usr/bin
 
 # make aliases
-echo 'alias vi=nvim' >> ~/.zshrc
-echo 'alias vi=nvim' >> ~/.bashrc
+bash -c "echo 'alias vi=nvim' >> ~/.zshrc"
+bash -c "echo 'alias vi=nvim' >> ~/.bashrc"
 
 # configure nvim
 cd ~
-mkdir -p home/admin/.config/nvim
-mkdir -p ~/.config/nvim
+mkdir home/admin/.config/nvim
+mkdir ~/.config/nvim
 
 cp home/admin/mgk/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
 cp home/admin/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
