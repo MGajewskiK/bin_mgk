@@ -101,6 +101,8 @@ Plug 'mechatroner/rainbow_csv'
 Plug 'antoinemadec/coc-fzf'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-obsession'
+Plug 'justinmk/vim-sneak'
+Plug 'unblevable/quick-scope'
 
 call plug#end()
 
@@ -164,6 +166,9 @@ let g:coc_fzf_opts = []
 let loaded_matchparen = 1
 let g:rainbow_active = 1
 
+let g:sneak#label = 1
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
@@ -181,7 +186,8 @@ map <Space> <leader>
 " esc to exit terminal
 tnoremap jj <C-\><C-n>
 " 0 goes to first non-blank character
-map 0 ^
+nnoremap 0 ^
+nnoremap ^ 0
 nmap <leader><CR> O<Esc>
 nmap <CR> o<Esc>
 " remap ESC key in insert mode only
@@ -247,7 +253,7 @@ nnoremap <leader>/ :noh<CR>
 " copy / paste to the system clipboard
 " noremap <leader>y "+y
 " noremap <leader>p "+p
-" quicker delete inside parantheses
+" quicker delete inside and around parantheses
 nnoremap ci( f(ci(
 nnoremap di( f(di(
 nnoremap ci) f)ci)
@@ -258,6 +264,9 @@ nnoremap ci{ f{ci{
 nnoremap ci} f}ci}
 nnoremap ci[ f[ci[
 nnoremap ci] f]ci]
+" around
+nnoremap ca" f"ca"
+nnoremap ca' f'ca'
 " coc explorer
 nmap <leader>e :CocCommand explorer<CR>
 " coc yank
