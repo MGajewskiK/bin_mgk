@@ -385,3 +385,5 @@ endif
 " Config for rainbow csv
 autocmd BufWinEnter *.csv set buftype=nowrite | :%s/,/|/g
 autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
+" Config for git commit messages
+autocmd Filetype gitcommit setlocal spell textwidth=72
