@@ -41,12 +41,11 @@ bash -c "echo 'alias vi=nvim' >> ~/.zshrc"
 bash -c "echo 'alias vi=nvim' >> ~/.bashrc"
 
 # configure nvim
-cd ~
-mkdir home/admin/.config/nvim
-mkdir ~/.config/nvim
+bash -c "mkdir home/admin/.config/nvim"
+bash -c "mkdir ~/.config/nvim"
 
-cp home/admin/mgk/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
-cp home/admin/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim
+bash -c "cp home/admin/mgk/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim"
+bash -c "cp home/admin/bin_mgk/config/.vimrc home/admin/.config/nvim/init.vim"
 
-cp ~/mgk/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
-cp ~/bin_mgk/config/.vimrc ~/.config/nvim/init.vim
+bash -c "cp ~/mgk/bin_mgk/config/.vimrc ~/.config/nvim/init.vim"
+bash -c "cp ~/bin_mgk/config/.vimrc ~/.config/nvim/init.vim"
