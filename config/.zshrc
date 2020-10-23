@@ -12,7 +12,11 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="/home/mgajewskik/.oh-my-zsh"
 path+=('/home/mgajewskik/.local/bin')
 path+=('/home/mgajewskik/.local/lib/python3.6/site-packages')
+path+=('home/mgajewskik/.poetry/bin')
+path+=('/usr/local/go/bin')
+fpath+=~/.zfunc
 export PATH
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -126,7 +130,7 @@ alias vi=nvim
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/mgajewskik/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/mgajewskik/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -161,3 +165,8 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow --glob 
 
 export BAT_THEME="Solarized (light)"
 [[ /usr/bin/kubectl ]] && source <(kubectl completion zsh)
+
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+# export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH

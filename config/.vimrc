@@ -4,7 +4,6 @@
 
 syntax on
 syntax enable
-autocmd! bufwritepost .vimrc source % " automatic vimrc file reload
 
 set ma
 set cursorline
@@ -78,6 +77,9 @@ if has('nvim')
     endif
 endif
 
+" disable polyglot for certain filetypes
+let g:polyglot_disabled = ['csv']
+
 " List of plugins to install with Plug
 call plug#begin('~/.vim/plugged')
 
@@ -103,6 +105,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-obsession'
 Plug 'justinmk/vim-sneak'
 Plug 'unblevable/quick-scope'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -110,6 +113,13 @@ call plug#end()
 let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-yank']
 
 " --- vim go (polyglot) settings.
+let g:go_fmt_command = "goimports"
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled = 0
+" let g:go_doc_popup_window = 1
+
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
@@ -124,9 +134,6 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_sameids = 1
-
-" disable polyglot for certain filetypes
-let g:polyglot_disabled = ['csv']
 
 colorscheme gruvbox
 set background=dark
@@ -387,3 +394,6 @@ autocmd BufWinEnter *.csv set buftype=nowrite | :%s/,/|/g
 autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
 " Config for git commit messages
 autocmd Filetype gitcommit setlocal spell textwidth=72
+" autocmd BufWritePre *.go :call CocAction('organizeImport')
+" autocmd BufWritePost .vimrc,_vimrc, $MYVIMRC
+autocmd! bufwritepost .vimrc source % " automatic vimrc file reload
