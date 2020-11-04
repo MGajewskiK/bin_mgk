@@ -14,6 +14,7 @@ path+=('/home/mgajewskik/.local/bin')
 path+=('/home/mgajewskik/.local/lib/python3.6/site-packages')
 path+=('home/mgajewskik/.poetry/bin')
 path+=('/usr/local/go/bin')
+path+=('/home/mgajewskik/.cargo/bin')
 fpath+=~/.zfunc
 export PATH
 
