@@ -162,7 +162,8 @@ man() {
 # --hidden: Search hidden files and folders
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow --glob "!.git/*" --glob "!.tox/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!.tox/*" --glob "!venv/*" --glob "!.pyc" --glob "!.pyi"'
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow --glob "!.git/*" --glob "!.tox/*" --glob "!venv/*" --glob "!.pyc" --glob "!.pyi"'
 
 export BAT_THEME="Solarized (light)"
 [[ /usr/bin/kubectl ]] && source <(kubectl completion zsh)
@@ -171,3 +172,10 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 # export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+export PATH="$HOME/.poetry/bin:$PATH"

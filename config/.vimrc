@@ -86,14 +86,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdcommenter'
 Plug 'morhetz/gruvbox'
-Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'luochen1990/rainbow'
@@ -102,15 +99,13 @@ Plug 'Yggdroot/indentLine'
 Plug 'mechatroner/rainbow_csv'
 Plug 'antoinemadec/coc-fzf'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'tpope/vim-obsession'
 Plug 'justinmk/vim-sneak'
-Plug 'unblevable/quick-scope'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
 " COC extensions
-let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-yank']
+let g:coc_global_extensions = ['coc-cfn-lint', 'coc-python', 'coc-markdownlint', 'coc-lists', 'coc-git', 'coc-json', 'coc-yaml', 'coc-sql', 'coc-clangd', 'coc-cmake', 'coc-jedi', 'coc-sh', 'coc-xml', 'coc-explorer', 'coc-go', 'coc-yank', 'coc-pyright']
 
 " --- vim go (polyglot) settings.
 let g:go_fmt_command = "goimports"
@@ -151,15 +146,13 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indentLine_setColors = 0
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
-" use root directory for searching instead of current
-" if executable('rg')
-"     let g:rg_derive_root='true'
-" endif
-
+" fzf settings
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment' } }
 let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+let FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!.tox/*" --glob "!venv/*" --glob "!.pyc" --glob "!.pyi"'
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
+" let g:fzf_preview_window = ['up:60%']
 
 " let g:clipboard = {
     " \ 'name': 'xclip',
@@ -178,6 +171,9 @@ let loaded_matchparen = 1
 let g:rainbow_active = 1
 
 let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#prompt = 'Sneak> '
+let g:sneak#use_ic_scs = 0
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 let g:netrw_browse_split = 2
@@ -240,6 +236,8 @@ nnoremap <leader>0 :tablast<cr>
 " Undo tree shortcut
 nnoremap <leader>u :UndotreeShow<CR>
 " fzf shortcuts
+nnoremap cc :Commands<CR>
+nnoremap // :BLines<CR>
 nnoremap <Leader>s :Find<SPACE>
 nnoremap <leader>ws :Find <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader><leader> :RG<CR>
@@ -250,9 +248,6 @@ nnoremap <leader>f :ProjectFiles<CR>
 " resize panes
 nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
-" nerdtree configuration
-" nmap <leader>t :NERDTreeToggle<CR>
-" nmap <leader>tf :NERDTreeFind<CR>
 " nerd commenter
 nmap <leader>cc :NERDCommenterComment<CR>
 nmap <leader>c<space> :NERDCommenterToggle<CR>
@@ -290,7 +285,7 @@ nmap <leader>ge :vsp<CR><Plug>(coc-definition)
 nmap <leader>gt <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
-" nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
@@ -307,9 +302,18 @@ nmap <leader>gv :Gvdiffsplit!<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gl :G log<CR>
 
+" Sneak mappings
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+
 " ============================================================================
 " Scripts and defined commands
 " ============================================================================
+"
+command! V :vnew ~/.vimrc
+command! S :source $MYVIMRC
 
 " close vim if the only open window is NerdTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -327,7 +331,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " --color: Search color options
 command! -bang -nargs=* Find
     \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!.tox/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"',
+    \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!.tox/*" --glob "!venv/*" --glob "!.pyc" --glob "!.pyi" --color "always" '.shellescape(<q-args>).'| tr -d "\017"',
     \   1, fzf#vim#with_preview(), <bang>0)
 
 " exploratory search function
@@ -395,6 +399,16 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+" quick opening of coc settings
+function! SetupCommandAbbrs(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfunction
+
+" Use C to open coc config
+call SetupCommandAbbrs('C', 'CocConfig')
+
 " Config for rainbow csv
 autocmd BufWinEnter *.csv set buftype=nowrite | :%s/,/|/g
 autocmd BufRead,BufNewFile *.csv set filetype=csv_pipe
@@ -403,3 +417,49 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 " autocmd BufWritePre *.go :call CocAction('organizeImport')
 " autocmd BufWritePost .vimrc,_vimrc, $MYVIMRC
 autocmd! bufwritepost .vimrc source % " automatic vimrc file reload
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+" =========================================================================
+" Additional functionality to note
+" =========================================================================
+"
+" visual block + I for editing visual selecion (multi cursor)
+" visual block + c for editing visual selecion (multi cursor)
+" J - join the lines
+" % - jump to brackets
+" gi - jump to insert when last used
+" gUw, guw - make word upper or lowercase 1
+" ctr + a / ctrl + x - increment and decrement a number
+"
+" " Shortcut to use blackhole register by default
+" nnoremap d "_d
+" vnoremap d "_d
+" nnoremap D "_D
+" vnoremap D "_D
+nnoremap c "_c
+vnoremap c "_c
+nnoremap C "_C
+vnoremap C "_C
+nnoremap x "_x
+vnoremap x "_x
+nnoremap X "_X
+vnoremap X "_X
+" Shortcut to use clipboard with <leader>
+" nnoremap <leader>d d
+" vnoremap <leader>d d
+" nnoremap <leader>D D
+" vnoremap <leader>D D
+nnoremap <leader>c c
+vnoremap <leader>c c
+nnoremap <leader>C C
+vnoremap <leader>C C
+nnoremap <leader>x x
+vnoremap <leader>x x
+nnoremap <leader>X X
+vnoremap <leader>X X
+"
+"
+"
+"
+"
+"
